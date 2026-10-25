@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MIRWEB — Creative Web Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ===== 3D particle canvas ===== -->
+<canvas id="c" aria-hidden="true"></canvas>
+<!-- ===== Header ===== -->
+<header><a class="logo" href="#" aria-label="MIRWEB"><img class="logo-img" src="images/logo.png" alt="" hidden onload="this.hidden=false;this.nextElementSibling.hidden=true"><span>MIRWEB®</span></a><div class="hr"><button id="tg" type="button">Day</button><a href="#contact" data-talk>Let’s talk</a><button id="bg" class="bgr" type="button" aria-label="Menu"><i></i><i></i></button></div></header>
+<!-- ===== Scroll captions ===== -->
+<div class="cap" id="c1"><small>Scroll to explore</small></div>
+<div class="cap hide" id="c2"><small>Sattan, Gilan</small><b>Based in Iran</b></div>
+<!-- ===== Preloader / cursor / grain ===== -->
+<div id="pre"><span>0</span></div><div id="cur"></div><div id="grain"></div>
+<!-- ===== Fullscreen menu ===== -->
+<div id="menu"><div class="mt"><a class="logo" href="#" aria-label="MIRWEB"><img class="logo-img" src="images/logo.png" alt="" hidden onload="this.hidden=false;this.nextElementSibling.hidden=true"><span>MIRWEB®</span></a><button class="back" type="button">✕ Close</button></div><nav><a href="#" style="--i:1"><small>01</small>Home</a><a href="#works" style="--i:2"><small>02</small>Work</a><a href="#about" style="--i:3"><small>03</small>About me</a><a href="#services" style="--i:4"><small>04</small>Services</a><a href="#faq" style="--i:5"><small>05</small>FAQ</a><a href="#contact" data-talk style="--i:6"><small>06</small>Let’s talk</a></nav></div>
+<!-- ===== Page curtain (menu transition) ===== -->
+<div id="wipe" aria-hidden="true"><div class="w1"></div><div class="w2"><small class="wn">01</small><b class="wl">Home</b></div></div>
+<!-- ===== Project details overlay (filled by js/ui/works.js) ===== -->
+<div id="proj"><div class="pw"><button class="back" type="button">← Back</button><h2></h2><div class="pm"></div><div class="th"></div><p class="pd"></p><a class="visit" href="#" target="_blank" rel="noopener">Visit site ↗</a></div></div>
+<!-- ===== Hero ===== -->
+<div id="map"><div class="hero"><h1 class="chars">MIRWEB</h1><h2 class="rv">Creative Web Designer</h2><p class="rv">I design and build fast, interactive websites with motion and 3D, for brands, agencies and creative teams.</p></div></div>
+<!-- ===== About ===== -->
+<section class="about" id="about"><div class="apin"><div class="acard glass rv"><div class="ph"><img src="images/me.webp" alt="Portrait of the designer" width="480" height="640" decoding="async"></div><div><h3>About me</h3><p>I’m a web designer based in Sattan, Gilan, Iran. I design and build fast, interactive websites with motion and 3D, from the first sketch to launch. Replace this text with your own story.</p></div></div></div></section>
+<!-- ===== Selected works ===== -->
+<section class="works" id="works"><div class="pin"><h3 class="rv">Selected works</h3><div class="track" id="track">
+<a class="work rv" href="#"><div class="th"></div><div class="m">Project One<span>2026</span></div></a>
+<a class="work rv" href="#"><div class="th"></div><div class="m">Project Two<span>2026</span></div></a>
+<a class="work rv" href="#"><div class="th"></div><div class="m">Project Three<span>2025</span></div></a>
+<a class="work rv" href="#"><div class="th"></div><div class="m">Project Four<span>2025</span></div></a>
+<a class="work rv" href="#"><div class="th"></div><div class="m">Project Five<span>2025</span></div></a>
+</div></div></section>
+<!-- ===== Services ===== -->
+<section class="services" id="services"><h3 class="rv">Services</h3><h4 class="sv-h" data-split>What I do,<br>step by step.</h4>
+<div class="sv-grid">
+<article class="sv rv"><span class="sv-n">01</span><span class="sv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span><h5>Discover</h5><p>We start by listening: your goals, audience, competitors and limits, so every later decision rests on facts.</p></article>
+<article class="sv rv"><span class="sv-n">02</span><span class="sv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg></span><h5>Strategy</h5><p>A clear plan for what the site must achieve: sitemap, content structure and how success will be measured.</p></article>
+<article class="sv rv"><span class="sv-n">03</span><span class="sv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19 7-7 3 3-7 7z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18z"/><path d="m2 2 7.6 7.6"/><circle cx="11" cy="11" r="2"/></svg></span><h5>Design</h5><p>From wireframes to polished screens: type, colour, motion and 3D that give your brand its own voice.</p></article>
+<article class="sv rv"><span class="sv-n">04</span><span class="sv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span><h5>Development</h5><p>Fast, accessible, responsive code built with clean HTML, CSS and JavaScript, plus WebGL where it earns its place.</p></article>
+<article class="sv rv"><span class="sv-n">05</span><span class="sv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.2 8 8 9 4.8-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span><h5>Test</h5><p>Real devices, browsers and speed checks, plus accessibility review and bug fixing before anything goes live.</p></article>
+<article class="sv rv"><span class="sv-n">06</span><span class="sv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9s-2.1-.8-2.9-.1z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.9A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22 22 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0"/><path d="M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></svg></span><h5>Launch</h5><p>Deployment, domain and hosting, analytics and support after release, so the site keeps getting better.</p></article>
+</div></section>
+<!-- ===== FAQ ===== -->
+<section class="faq" id="faq"><h3 class="rv">FAQ</h3><h4 class="fh" data-split>Questions?<br>Answers.</h4>
+<div class="fq rv"><button class="fqb" type="button" aria-expanded="false"><span class="n">01</span><span class="q">How long does a website take?</span><span class="pl">+</span></button><div class="fa"><div><p>Most projects take two to four weeks, depending on size and content.</p></div></div></div>
+<div class="fq rv"><button class="fqb" type="button" aria-expanded="false"><span class="n">02</span><span class="q">What do you need to get started?</span><span class="pl">+</span></button><div class="fa"><div><p>A short brief, your logo and texts, and a few sites you like for reference.</p></div></div></div>
+<div class="fq rv"><button class="fqb" type="button" aria-expanded="false"><span class="n">03</span><span class="q">Do you build mobile-friendly sites?</span><span class="pl">+</span></button><div class="fa"><div><p>Yes. Every site is designed for phones, tablets and desktops.</p></div></div></div>
+<div class="fq rv"><button class="fqb" type="button" aria-expanded="false"><span class="n">04</span><span class="q">How can I reach you?</span><span class="pl">+</span></button><div class="fa"><div><p>Use the Let’s talk section below and I will reply as soon as I can.</p></div></div></div>
+</section>
+<!-- ===== Contact CTA ===== -->
+<section class="contact" id="contact"><h3 class="rv">Let’s talk</h3><a href="#contact" data-talk data-split>Start a project ↗</a><p class="rv" style="color:var(--muted);margin:3vh 0 0">hello@yourdomain.com</p></section>
+<!-- ===== Footer ===== -->
+<footer class="hwf-root" id="footer">
+<canvas aria-hidden="true"></canvas>
+<span class="hwf-sr">MIRWEB</span>
+<div class="hwf-top">
+<div class="hwf-brand"><strong>MIRWEB®</strong><span>© 2026 · Sattan, Gilan, Iran</span></div>
+<nav class="hwf-col" aria-label="Pages"><h3>Pages</h3><ul>
+<li><a href="#works">Work</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#faq">FAQ</a></li>
+</ul></nav>
+<nav class="hwf-col" aria-label="Social"><h3>Social</h3><ul>
+<li><a href="https://t.me/yourname" target="_blank" rel="noopener">Telegram</a></li>
+<li><a href="https://instagram.com/yourname" target="_blank" rel="noopener">Instagram</a></li>
+<li><a href="https://github.com/yourname" target="_blank" rel="noopener">GitHub</a></li>
+<li><a href="https://wa.me/989000000000" target="_blank" rel="noopener">WhatsApp</a></li>
+</ul></nav>
+<nav class="hwf-col" aria-label="Contact"><h3>Contact</h3><ul>
+<li><a href="#contact" data-talk>Let’s talk</a></li>
+<li><a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a></li>
+</ul></nav>
+</div>
+<div class="hwf-rule"><button type="button" class="hwf-up">Back to top ↑</button></div>
+</footer>
+<!-- ===== "Let's talk" form overlay ===== -->
+<div id="talk"><div class="tw"><button class="back" type="button">✕ Close</button><h2>Let’s talk</h2><form class="glass"><label>Name<input name="n" required autocomplete="name"></label><label>Email<input name="e" type="email" required autocomplete="email"></label><div class="fld"><span class="lbl">Phone</span><div class="ph-row"><button type="button" class="cc-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Country code"><b>+98</b><i>▾</i></button><input name="p" type="tel" inputmode="tel" autocomplete="tel-national" aria-label="Phone number"><input name="cc" type="hidden" value="98"><div class="cc-list" hidden><input class="cc-s" type="search" placeholder="Search country or code" aria-label="Search country"><ul role="listbox"></ul></div></div></div><label>Message<textarea name="m" rows="5" required></textarea></label><button class="visit" type="submit">Send message</button><p class="st" role="status"></p></form></div></div>
+
+<!-- ===== Scripts ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
