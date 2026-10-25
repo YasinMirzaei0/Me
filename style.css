@@ -367,3 +367,23 @@ header{padding-left:20px;padding-right:20px}header a[data-talk]{display:none}.hr
 .abt p{font-size:clamp(18px,5vw,24px);line-height:1.22}
 .ph{max-height:38svh}
 }
+
+
+/* --- About: smaller card, statement as a quote under the photo --- */
+.apin{justify-content:flex-end}
+.acard{width:min(100%,380px);padding:14px;gap:14px}
+.ph{aspect-ratio:1/1}
+.acard .qt{margin:0;padding:0 6px 4px}
+.acard .qt p{margin:0;font-size:clamp(14px,1.05vw,15.5px);line-height:1.55;font-weight:400}
+.acard .qt footer{margin-top:12px;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.acard .qt footer:before{content:"— "}
+@media (max-width:800px){
+.apin{justify-content:flex-end;align-items:center}
+.acard{width:min(100%,340px)}
+.ph{aspect-ratio:1/1;max-height:30svh}
+.acard .qt p{font-size:14px}
+}
+
+/* --- Logo (top left): white mark, inverted on the light theme --- */
+.logo-img{height:clamp(30px,2.8vw,40px)}
+:root[data-theme="light"] .logo-img{filter:invert(1) brightness(.15)}
