@@ -305,3 +305,49 @@ header{padding-left:20px;padding-right:20px}header a[data-talk]{display:none}.hr
 }
 @media (prefers-reduced-motion:reduce){.w>span,.ph img{transform:none;opacity:1;filter:none;transition:none}.sv::before,.sv-ic{transition:none}.cc-list{animation:none}}
 #talk input[type=hidden]{display:none}
+
+
+/* ==========================================================
+   fixes v2
+   ========================================================== */
+
+/* --- About photo: show face + shoulders + jacket, no heavy zoom --- */
+.ph{aspect-ratio:1/1.08}
+.ph img{object-position:50% 0;transform:scale(1.05) translateY(2%)}
+.acard.in .ph img{transform:none}
+@media (max-width:800px){
+.ph{aspect-ratio:1/1;max-height:46svh}
+.ph img{object-position:50% 0}
+}
+
+/* --- Services: compact, tidy cards on phones --- */
+@media (max-width:600px){
+.services{padding:9vh 16px}
+.sv-h{margin-bottom:5vh}
+.sv-grid{gap:10px}
+.sv{display:grid;grid-template-columns:42px 1fr;column-gap:14px;align-items:start;padding:16px 16px 17px;border-radius:20px}
+.sv-ic{grid-column:1;grid-row:1/3;width:42px;height:42px;margin:0}
+.sv-ic svg{width:19px;height:19px}
+.sv-n{top:14px;right:16px;font-size:11px}
+.sv h5{grid-column:2;grid-row:1;align-self:center;margin:0 0 4px;padding-right:28px;font-size:18px;line-height:1.2}
+.sv p{grid-column:2;grid-row:2;font-size:13.5px;line-height:1.5}
+}
+
+/* --- Footer: larger, easier-to-tap links and button --- */
+.hwf-root{height:620px}
+.hwf-top{font-size:clamp(13px,1.05vw,15px);letter-spacing:.12em;line-height:1.5;row-gap:18px}
+.hwf-col h3{margin-bottom:6px}
+.hwf-col li{margin:0}
+.hwf-col a{display:inline-block;padding:9px 0;min-height:44px;line-height:1.5;background-position:0 calc(100% - 8px)}
+.hwf-brand strong{font-size:1.2em;margin-bottom:6px}
+.hwf-rule{font-size:clamp(13px,1.05vw,15px);letter-spacing:.12em}
+.hwf-up{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 24px;border:1px solid color-mix(in srgb,var(--hwf-ink) 35%,transparent);border-radius:999px;background-image:none;opacity:.9}
+.hwf-up:hover{opacity:1;background:color-mix(in srgb,var(--hwf-ink) 12%,transparent)}
+@media (max-width:720px){
+.hwf-root{height:680px}
+.hwf-top{font-size:14px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);row-gap:12px}
+.hwf-col:last-of-type{grid-column:1/-1}
+.hwf-col a{overflow-wrap:anywhere}
+.hwf-rule{justify-content:stretch}
+.hwf-up{width:100%;justify-content:center;min-height:50px;font-size:14px}
+}

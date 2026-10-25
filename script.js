@@ -95,17 +95,17 @@ shuffle(G);
 
 /* ---- 2) IRAN map: Iran bright, neighbours dim, so the Persian Gulf reads as the gap ---- */
 function inside(x,y){return pip(poly,x,y)}
-var W={lo0:42,lo1:65.5,la0:22,la1:42.5};
-var nA=Math.round(N*.40),nB=Math.round(N*.12),nC=Math.round(N*.30),nD=N-nA-nB-nC;
+var W={lo0:47.8,lo1:56.6,la0:24.2,la1:30.4}; // Persian Gulf box (water only)
+var GULF=[[48,30.3],[48.3,29.6],[48.6,28.4],[49.4,27.3],[50.2,26.5],[50.6,25.7],[51.25,26.1],[51.6,25.3],[51.45,24.6],[52.6,24.25],[54.1,24.4],[55.2,25.0],[56.0,25.7],[56.6,26.4],[56.6,27.8],[54,29],[51,30.4],[48,30.4]];
+var nB=Math.round(N*.20),nG=Math.round(N*.07),nA=N-nB-nG;
 var I=[];
 for(var i=0;i<nA;i++){var px,py;do{px=bx0+rnd()*(bx1-bx0);py=by0+rnd()*(by1-by0)}while(!inside(px,py));I.push([px,py,1])}
 var Lk=[],tot=0;for(var i=0;i<poly.length;i++){var a=poly[i],b=poly[(i+1)%poly.length],d=Math.hypot(b[0]-a[0],b[1]-a[1]);Lk.push(d);tot+=d}
 for(var i=0;i<nB;i++){var t=rnd()*tot,k=0;while(t>Lk[k]){t-=Lk[k];k++}var a=poly[k],b=poly[(k+1)%poly.length],f=t/Lk[k];I.push([a[0]+(b[0]-a[0])*f+(rnd()-.5)*.01,a[1]+(b[1]-a[1])*f+(rnd()-.5)*.01,1])}
+/* faint dots on the water of the Persian Gulf only (no neighbouring countries are drawn) */
 var tries=0,cnt=0;
-while(cnt<nC&&tries<400000){tries++;var lo=W.lo0+rnd()*(W.lo1-W.lo0),la=W.la0+rnd()*(W.la1-W.la0);if(pip(OUT,lo,la)||!isLand(lo,la))continue;var q=irnXY(lo,la);I.push([q[0],q[1],.30]);cnt++}
-while(cnt<nC){I.push([bx0+rnd()*(bx1-bx0),by0+rnd()*(by1-by0),.0]);cnt++}
-var lines=coastF.concat(bordF).filter(function(p){return p[0]>W.lo0&&p[0]<W.lo1&&p[1]>W.la0&&p[1]<W.la1&&!pip(OUT,p[0],p[1])});
-pick(lines,nD).forEach(function(p){var q=irnXY(p[0],p[1]);I.push([q[0]+(rnd()-.5)*.006,q[1]+(rnd()-.5)*.006,.58])});
+while(cnt<nG&&tries<400000){tries++;var lo=W.lo0+rnd()*(W.lo1-W.lo0),la=W.la0+rnd()*(W.la1-W.la0);if(pip(OUT,lo,la)||!pip(GULF,lo,la))continue;var q=irnXY(lo,la);I.push([q[0],q[1],.34]);cnt++}
+while(cnt<nG){var px,py;do{px=bx0+rnd()*(bx1-bx0);py=by0+rnd()*(by1-by0)}while(!inside(px,py));I.push([px,py,1]);cnt++}
 shuffle(I);
 
 /* ---- fill typed arrays ---- */
@@ -172,12 +172,11 @@ var mk=new THREE.Points(mg,mm);grp.add(mk);
 var lc=document.createElement('canvas');lc.width=640;lc.height=200;
 var ltex=new THREE.CanvasTexture(lc);
 var lab=new THREE.Sprite(new THREE.SpriteMaterial({map:ltex,transparent:true,opacity:0,depthTest:false,depthWrite:false}));
-var lp=Q.irnXY(53.4,25.75),lx=lp[0],ly=lp[1];
+var lp=Q.irnXY(52.4,26.8),lx=lp[0],ly=lp[1];lab.material.rotation=-.42;
 grp.add(lab);
 function drawLabel(color){
   var c=lc.getContext('2d');c.clearRect(0,0,640,200);c.fillStyle=color;c.textAlign='center';c.textBaseline='middle';
-  c.font='500 54px "Inter Tight",system-ui,Arial,sans-serif';c.fillText('Persian Gulf',320,62);
-  c.font='500 56px "Vazirmatn","Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif';c.fillText('خلیج فارس',320,138);
+  c.font='500 66px "Inter Tight",system-ui,Arial,sans-serif';c.fillText('Persian Gulf',320,100);
   ltex.needsUpdate=true;
 }
 
@@ -185,7 +184,7 @@ var globeC=new Float32Array(N),irnC=new Float32Array(N),dnaC=new Float32Array(N)
 // brightness -> grey. Night: bright = visible (additive). Day: dark = visible (normal blending).
 function theme(){
   var d=dark(),fc=new THREE.Color(css('--fg')),map=d?function(t){return t}:function(t){return .93-.85*t};
-  for(var i=0;i<N;i++){baseC[3*i]=fc.r;baseC[3*i+1]=fc.g;baseC[3*i+2]=fc.b;globeC[i]=map(globeT[i]);irnC[i]=map(irnT[i]);dnaC[i]=map(dnaT[i]);galC[i]=map(galT[i])}
+  for(var i=0;i<N;i++){baseC[3*i]=fc.r;baseC[3*i+1]=fc.g;baseC[3*i+2]=fc.b;globeC[i]=d?(globeT[i]<.2?globeT[i]*1.5:.55+.45*globeT[i]):map(globeT[i]);irnC[i]=map(irnT[i]);dnaC[i]=map(dnaT[i]);galC[i]=map(galT[i])}
   mat.color.set(0xffffff);mat.blending=d?THREE.AdditiveBlending:THREE.NormalBlending;mat.opacity=d?.9:.8;mat.needsUpdate=true;
   mm.color.set(css('--fg'));mm.blending=mat.blending;mm.needsUpdate=true;
   drawLabel(css('--fg'));
@@ -214,7 +213,7 @@ function frame(now){
   var r3=aboutEl.getBoundingClientRect(),at=(innerHeight-r3.top)/(r3.height+innerHeight),m3=E((at-.05)/.2),m4=E((at-.5)/.25);
   var sd=t*.5+scrollY*.004,cd=Math.cos(sd),sdn=Math.sin(sd),sg=t*.08+scrollY*.0006,cg2=Math.cos(sg),sg2=Math.sin(sg),ct=.54,st=.84;
   var asp=innerWidth/innerHeight,mob=asp<.8,dx=asp>1.1?-.75:0,gsc=mob?.55:1,dsc=mob?.6:1,dy=mob?.55:0,cph=.96,sph=.276;
-  var gloS=mob?.78:1,irnS=mob?.74:1; // smaller globe + Iran map on phones
+  var isD=dark(),fadeTo=isD?0:.93,gloS=mob?.78:1,irnS=mob?.74:1; // smaller globe + Iran map on phones
   for(var i=0;i<N;i++){
     var k=3*i,d=delay[i];
     var f1=E(a*1.4-d),f2=E(m2*1.4-d);
@@ -227,6 +226,8 @@ function frame(now){
     pos[k]=bx+(qx-bx)*f4;pos[k+1]=by+(qy-by)*f4;pos[k+2]=bz+(qz2-bz)*f4;
     var tg=globeC[i],ti=irnC[i],td=dnaC[i],ta=galC[i];
     for(var j=0;j<3;j++){var v=baseC[k+j];v+=(tg-v)*f1;v+=(ti-v)*f2;v+=(td-v)*f3;v+=(ta-v)*f4;col[k+j]=v}
+    var gl=f1*(1-f2)*(1-f3)*(1-f4);
+    if(gl>.001){var fr=E((gz/(.95*gloS)+.08)/.42),w=gl*(1-fr)*(isD?.93:.9);col[k]+=(fadeTo-col[k])*w;col[k+1]+=(fadeTo-col[k+1])*w;col[k+2]+=(fadeTo-col[k+2])*w}
   }
   geo.attributes.position.needsUpdate=true;geo.attributes.color.needsUpdate=true;
   var irnVis=E((m2-.85)/.15)*(1-m3);
