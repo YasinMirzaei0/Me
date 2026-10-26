@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../images/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="../images/logo.png">
+<link rel="alternate" type="application/rss+xml" title="MIRWEB Blog" href="https://your-domain.com/blog/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="blog.css">
+<script>try{if(localStorage.getItem('th')==='light')document.documentElement.setAttribute('data-theme','light')}catch(e){}</script>
+<script defer data-domain="your-domain.com" src="https://plausible.io/js/script.js"></script>
+<title>How to build a fast website: 8 habits that matter — MIRWEB Blog</title>
+<meta name="description" content="Speed is a design decision, not a last-minute fix. Eight practical habits for building websites that load quickly on real phones.">
+<link rel="canonical" href="https://your-domain.com/blog/how-to-build-a-fast-website.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="MIRWEB">
+<meta property="og:title" content="How to build a fast website: 8 habits that matter">
+<meta property="og:description" content="Speed is a design decision, not a last-minute fix. Eight practical habits for building websites that load quickly on real phones.">
+<meta property="og:url" content="https://your-domain.com/blog/how-to-build-a-fast-website.html">
+<meta property="og:image" content="https://your-domain.com/images/og-image.png">
+<meta property="article:published_time" content="2026-10-26">
+<meta property="article:author" content="Yasin Mirzaei">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How to build a fast website: 8 habits that matter","description":"Speed is a design decision, not a last-minute fix. Eight practical habits for building websites that load quickly on real phones.","datePublished":"2026-10-26","dateModified":"2026-10-26","author":{"@type":"Person","name":"Yasin Mirzaei","url":"https://your-domain.com/"},"publisher":{"@type":"Organization","name":"MIRWEB","logo":{"@type":"ImageObject","url":"https://your-domain.com/images/logo.png"}},"image":"https://your-domain.com/images/og-image.png","mainEntityOfPage":"https://your-domain.com/blog/how-to-build-a-fast-website.html"}</script>
+</head>
+<body>
+<header class="bh"><a class="logo" href="../index.html" aria-label="MIRWEB home">MIRWEB®</a><nav><a href="index.html">Blog</a><button id="tg" type="button">Day</button><a class="cta" href="../index.html#contact">Let’s talk</a></nav></header>
+<main class="wrap">
+<article class="post">
+<a class="crumb" href="index.html">← All articles</a>
+<h1>How to build a fast website: 8 habits that matter</h1>
+<p class="meta"><time datetime="2026-10-26">26 October 2026</time> · 5 min read · Yasin Mirzaei</p>
+<p>Most slow websites were not slowed down by one big mistake. They got slow one decision at a time: an extra font, a heavy slider, an image nobody resized. The good news is that the reverse is also true. A handful of habits, applied from the first day of a project, keeps a site fast without a painful clean-up at the end.</p>
+<p>Google’s Core Web Vitals give a useful target. For a page to count as “good”, the largest content element should appear within 2.5 seconds (LCP), interactions should respond within 200 milliseconds (INP), and the layout should barely move while loading (CLS under 0.1).</p>
+<h2>1. Set a budget before you design</h2>
+<p>Decide early how heavy the page may be and how much JavaScript you are willing to ship. A budget turns “this feels slow” into a number you can check, and it makes it easy to say no to one more effect or one more library.</p>
+<h2>2. Use modern image formats at the right size</h2>
+<p>Images are usually the heaviest part of a page. Export WebP or AVIF, resize to the largest size the layout really needs, and use <code>srcset</code> so phones do not download desktop-sized files.</p>
+<h2>3. Always give images a width and height</h2>
+<p>When the browser knows the dimensions up front, it reserves the space before the file arrives. This single habit removes most layout shift.</p>
+<h2>4. Lazy-load below the fold, but never the hero</h2>
+<p>Add <code>loading="lazy"</code> to images further down the page. Keep the main hero image eager, because it is often the element that decides your LCP score.</p>
+<h2>5. Keep fonts under control</h2>
+<p>One family and two or three weights are enough for most sites. Use <code>font-display: swap</code> so text is visible immediately, and host the font files yourself to avoid an extra connection to another server.</p>
+<h2>6. Ship less JavaScript</h2>
+<p>Ask whether a small piece of plain JavaScript can replace a whole library. Every kilobyte has to be downloaded, parsed and executed, and on a mid-range phone that cost is real.</p>
+<h2>7. Animate only transform and opacity</h2>
+<p>These two properties can be handled by the GPU without recalculating the layout. Animating width, height or top forces the browser to do much more work on every frame.</p>
+<h2>8. Test on a real, average phone</h2>
+<p>Your development machine is the fastest device your visitors will never own. Test on a mid-range phone, throttle the network in DevTools, and run Lighthouse or PageSpeed Insights before every launch.</p>
+<p>Speed is a feature people feel without noticing it. If you want a site that is built with these habits from the start, <a href="../index.html#contact">let’s talk about your project</a>.</p>
+</article>
+<aside class="more"><h2>Keep reading</h2><ul><li><a href="does-your-website-need-3d.html">Does your website need 3D? When motion helps and when it hurts</a></li><li><a href="what-to-prepare-before-hiring-a-web-designer.html">What to prepare before hiring a web designer</a></li></ul></aside>
+</main>
+<footer class="bf"><span>© 2026 · MIRWEB</span><nav aria-label="Footer"><a href="../index.html">Home</a><a href="index.html">Blog</a><a href="mailto:yasinmirzaei715@gmail.com">Email</a><a href="https://t.me/Yasinmiirzaei" target="_blank" rel="noopener">Telegram</a></nav></footer>
+<script src="blog.js"></script>
+</body>
+</html>

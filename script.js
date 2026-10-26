@@ -97,7 +97,7 @@ shuffle(G);
 function inside(x,y){return pip(poly,x,y)}
 var W={lo0:47.8,lo1:56.6,la0:24.2,la1:30.4}; // Persian Gulf box (water only)
 var GULF=[[48,30.3],[48.3,29.6],[48.6,28.4],[49.4,27.3],[50.2,26.5],[50.6,25.7],[51.25,26.1],[51.6,25.3],[51.45,24.6],[52.6,24.25],[54.1,24.4],[55.2,25.0],[56.0,25.7],[56.6,26.4],[56.6,27.8],[54,29],[51,30.4],[48,30.4]];
-var nB=Math.round(N*.20),nG=Math.round(N*.07),nA=N-nB-nG;
+var nB=Math.round(N*.20),nG=Math.round(N*.07),nC=Math.round(N*.05),nA=N-nB-nG-nC;
 var I=[];
 for(var i=0;i<nA;i++){var px,py;do{px=bx0+rnd()*(bx1-bx0);py=by0+rnd()*(by1-by0)}while(!inside(px,py));I.push([px,py,1])}
 var Lk=[],tot=0;for(var i=0;i<poly.length;i++){var a=poly[i],b=poly[(i+1)%poly.length],d=Math.hypot(b[0]-a[0],b[1]-a[1]);Lk.push(d);tot+=d}
@@ -106,6 +106,10 @@ for(var i=0;i<nB;i++){var t=rnd()*tot,k=0;while(t>Lk[k]){t-=Lk[k];k++}var a=poly
 var tries=0,cnt=0;
 while(cnt<nG&&tries<400000){tries++;var lo=W.lo0+rnd()*(W.lo1-W.lo0),la=W.la0+rnd()*(W.la1-W.la0);if(pip(OUT,lo,la)||!pip(GULF,lo,la))continue;var q=irnXY(lo,la);I.push([q[0],q[1],.34]);cnt++}
 while(cnt<nG){var px,py;do{px=bx0+rnd()*(bx1-bx0);py=by0+rnd()*(by1-by0)}while(!inside(px,py));I.push([px,py,1]);cnt++}
+/* faint dots on the southern Caspian Sea (WATERS[1]); they fade out towards the north so the map keeps its shape */
+var CAS=WATERS[1],cnC=0,trC=0;
+while(cnC<nC&&trC<400000){trC++;var cl=46.4+rnd()*8.8,ca=36.2+rnd()*6.4;if(!pip(CAS,cl,ca)||pip(OUT,cl,ca))continue;var cq=irnXY(cl,ca);I.push([cq[0],cq[1],Math.max(.07,.34*Math.min(1,(42.6-ca)/2.6))]);cnC++}
+while(cnC<nC){var px,py;do{px=bx0+rnd()*(bx1-bx0);py=by0+rnd()*(by1-by0)}while(!inside(px,py));I.push([px,py,1]);cnC++}
 shuffle(I);
 
 /* ---- fill typed arrays ---- */
@@ -174,10 +178,19 @@ var ltex=new THREE.CanvasTexture(lc);
 var lab=new THREE.Sprite(new THREE.SpriteMaterial({map:ltex,transparent:true,opacity:0,depthTest:false,depthWrite:false}));
 var lp=Q.irnXY(52.4,26.8),lx=lp[0],ly=lp[1];lab.material.rotation=-.42;
 grp.add(lab);
+// same idea for the Caspian Sea, north of Gilan / Mazandaran
+var lc2=document.createElement('canvas');lc2.width=640;lc2.height=200;
+var ltex2=new THREE.CanvasTexture(lc2);
+var lab2=new THREE.Sprite(new THREE.SpriteMaterial({map:ltex2,transparent:true,opacity:0,depthTest:false,depthWrite:false}));
+var lp2=Q.irnXY(51.4,40.3),lx2=lp2[0],ly2=lp2[1];
+grp.add(lab2);
 function drawLabel(color){
   var c=lc.getContext('2d');c.clearRect(0,0,640,200);c.fillStyle=color;c.textAlign='center';c.textBaseline='middle';
   c.font='500 66px "Inter Tight",system-ui,Arial,sans-serif';c.fillText('Persian Gulf',320,100);
   ltex.needsUpdate=true;
+  var d=lc2.getContext('2d');d.clearRect(0,0,640,200);d.fillStyle=color;d.textAlign='center';d.textBaseline='middle';
+  d.font='500 66px "Inter Tight",system-ui,Arial,sans-serif';d.fillText('Caspian Sea',320,100);
+  ltex2.needsUpdate=true;
 }
 
 var globeC=new Float32Array(N),irnC=new Float32Array(N),dnaC=new Float32Array(N),galC=new Float32Array(N);
@@ -234,6 +247,7 @@ function frame(now){
   mm.opacity=irnVis*(.7+.3*Math.sin(t*3));
   mk.scale.setScalar(irnS);
   lab.position.set(lx*irnS,ly*irnS,.03);lab.scale.set(.62*irnS,.194*irnS,1);lab.material.opacity=irnVis*.95;
+  lab2.position.set(lx2*irnS,ly2*irnS,.03);lab2.scale.set(.62*irnS,.194*irnS,1);lab2.material.opacity=irnVis*.95;
   sx+=(mx-sx)*.05;sy+=(my-sy)*.05;
   grp.rotation.y=sx*.28;grp.rotation.x=sy*.16;
   c1.classList.toggle('hide',sp>.15);
@@ -254,7 +268,7 @@ var body=document.body,pre=document.getElementById('pre'),num=pre.firstElementCh
 document.querySelectorAll('.chars').forEach(function(el){var t=el.textContent;el.textContent='';el.setAttribute('aria-label',t);Array.from(t).forEach(function(c,i){var q=document.createElement('span');q.className='char';q.setAttribute('aria-hidden','true');q.style.setProperty('--i',i);q.textContent=c;el.appendChild(q)})});
 
 /* headings marked data-split: word by word, each word slides up from a mask */
-document.querySelectorAll('[data-split]').forEach(function(el){
+function splitEl(el){
   el.setAttribute('aria-label',el.textContent.replace(/\s+/g,' ').trim());
   var n=0,frag=document.createDocumentFragment();
   Array.prototype.slice.call(el.childNodes).forEach(function(node){
@@ -268,7 +282,9 @@ document.querySelectorAll('[data-split]').forEach(function(el){
     }else frag.appendChild(node.cloneNode(true));
   });
   el.textContent='';el.appendChild(frag);
-});
+}
+MIRWEB.split=splitEl;
+document.querySelectorAll('[data-split]').forEach(splitEl);
 
 /* reveal: elements that enter together are staggered; the delay is cleared afterwards so hovers stay snappy */
 var SEL='.rv,.chars,[data-split]';
@@ -300,7 +316,7 @@ addEventListener('pointermove',function(e){gx=e.clientX;gy=e.clientY;cur.classLi
 /* Day / Night toggle (remembered in localStorage). */
 (function(){
 var root=document.documentElement,tg=document.getElementById('tg');
-function setT(l){if(l)root.setAttribute('data-theme','light');else root.removeAttribute('data-theme');tg.textContent=l?'Night':'Day';if(window.__theme)window.__theme();try{localStorage.setItem('th',l?'light':'dark')}catch(e){}}
+function setT(l){if(l)root.setAttribute('data-theme','light');else root.removeAttribute('data-theme');tg.textContent=l?MIRWEB.t('theme.night','Night'):MIRWEB.t('theme.day','Day');if(window.__theme)window.__theme();try{localStorage.setItem('th',l?'light':'dark')}catch(e){}}
 tg.addEventListener('click',function(){setT(root.getAttribute('data-theme')!=='light')});
 try{if(localStorage.getItem('th')==='light')setT(true)}catch(e){}
 })();
@@ -356,8 +372,10 @@ links.forEach(function(a,i){
     if(talk)e.stopImmediatePropagation(); // js/ui/contact.js would open the form too early
     var label=a.textContent.replace(/^\d+/,'').trim();
     curtain(label,i+1,function(){
+      var href=a.getAttribute('href');
+      if(!talk&&href.charAt(0)!=='#'){location.href=href;return}
       closeM();
-      if(talk){if(MIRWEB.openContact)MIRWEB.openContact()}else jump(a.getAttribute('href'));
+      if(talk){if(MIRWEB.openContact)MIRWEB.openContact()}else jump(href);
     });
   });
 });
@@ -374,7 +392,7 @@ function fit(){sec.style.height=(innerHeight+dist())+'px'}
 fit();addEventListener('resize',fit);addEventListener('load',fit);
 (function l(){var r=sec.getBoundingClientRect(),h=sec.offsetHeight-innerHeight,p=h>0?Math.min(1,Math.max(0,-r.top/h)):0;cv+=(p-cv)*.1;tr.style.transform='translate3d('+(-cv*dist())+'px,0,0)';requestAnimationFrame(l)})();
 var pg=document.getElementById('proj'),pt=pg.querySelector('h2'),pm=pg.querySelector('.pm'),pd=pg.querySelector('.pd'),pv=pg.querySelector('.visit');
-function show(i){var p=P[i];pt.textContent=p.t;pm.textContent=p.c+' · '+p.y;pd.textContent=p.d;pv.href=p.u;pg.scrollTop=0;pg.classList.add('open');document.body.classList.add('lock')}
+function show(i){var p=P[i],fa=MIRWEB.lang==='fa'&&MIRWEB.projectsFa&&MIRWEB.projectsFa[i];if(fa)p=Object.assign({},p,fa);pt.textContent=p.t;pm.textContent=p.c+' · '+p.y;pd.textContent=p.d;pv.href=p.u;pg.scrollTop=0;pg.classList.add('open');document.body.classList.add('lock')}
 function hide(){pg.classList.remove('open');document.body.classList.remove('lock')}
 cards.forEach(function(c,i){c.addEventListener('click',function(e){e.preventDefault();show(i)})});
 pg.querySelector('.back').addEventListener('click',hide);
@@ -402,7 +420,7 @@ var CFG={
   grain:.5,            // print grain over everything (0-1)
   interactive:true,
   fontWeight:800,
-  fontFamily:'"Inter Tight","Inter Variable","Inter","Helvetica Neue",Arial,system-ui,sans-serif'
+  fontFamily:'"Inter Tight Local","Inter Tight","Inter Variable","Inter","Helvetica Neue",Arial,system-ui,sans-serif'
 };
 var THEMES={
   dark:{background:'#0c0c0b',ink:'#f0f2f0',warm:'#f4ce15'},
@@ -554,7 +572,7 @@ function render(q){
     b.addEventListener('click',function(){setCur(c);closeList();fm.elements.p.focus()});
     li.appendChild(b);ul.appendChild(li);shown++;
   });
-  if(!shown){var e=document.createElement('li');e.className='no';e.textContent='No match';ul.appendChild(e)}
+  if(!shown){var e=document.createElement('li');e.className='no';e.textContent=MIRWEB.t('msg.nomatch','No match');ul.appendChild(e)}
 }
 function openList(){box.hidden=false;btn.setAttribute('aria-expanded','true');search.value='';render('');search.focus();var on=ul.querySelector('.on');if(on)on.scrollIntoView({block:'center'})}
 function closeList(){box.hidden=true;btn.setAttribute('aria-expanded','false')}
@@ -570,13 +588,20 @@ setCur(cur);
 /* ---- submit ---- */
 fm.addEventListener('submit',function(e){
   e.preventDefault();var f=fm.elements,phone=f.p.value.trim()?'+'+f.cc.value+' '+f.p.value.trim():'';
-  var d={name:f.n.value,email:f.e.value,phone:phone,message:f.m.value};
-  if(ENDPOINT){fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){if(!r.ok)throw 0;stt.textContent='Thank you, your message was sent.';fm.reset();setCur(['Iran','98'])}).catch(function(){stt.textContent='Something went wrong. Please try again.'})}
-  else{location.href='mailto:hello@yourdomain.com?subject='+encodeURIComponent('Message from '+d.name)+'&body='+encodeURIComponent(d.message+'\n\n'+d.name+'\n'+d.email+'\n'+d.phone);stt.textContent='Opening your email app…'}
+  if(f.website&&f.website.value){stt.textContent=MIRWEB.t('msg.ok','Thank you, your message was sent.');return}
+  var d={name:f.n.value,email:f.e.value,phone:phone,projectType:f.pt.value,budget:f.bd.value,timeline:f.tl.value,message:f.m.value};
+  if(window.plausible)window.plausible('Contact form',{props:{type:d.projectType||'none',budget:d.budget||'none'}});
+  if(ENDPOINT){fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(d)}).then(function(r){if(!r.ok)throw 0;stt.textContent=MIRWEB.t('msg.ok','Thank you, your message was sent.');fm.reset();setCur(['Iran','98'])}).catch(function(){stt.textContent=MIRWEB.t('msg.err','Something went wrong. Please try again.')})}
+  else{
+    var brief=['Project type: '+(d.projectType||'-'),'Budget: '+(d.budget||'-'),'Timeline: '+(d.timeline||'-')].join('\n');
+    location.href='mailto:yasinmirzaei715@gmail.com?subject='+encodeURIComponent('Project inquiry from '+d.name)+'&body='+encodeURIComponent(d.message+'\n\n'+brief+'\n\n'+d.name+'\n'+d.email+'\n'+d.phone);stt.textContent=MIRWEB.t('msg.mail','Opening your email app…')}
 });
 MIRWEB.openContact=openT;
 MIRWEB.closeContact=closeT;
 })();
+
+/* Header: after a little scrolling only the hamburger stays; everything else returns at the top. */
+(function(){var b=document.body;function u(){b.classList.toggle('scrolled',(window.scrollY||document.documentElement.scrollTop)>40)}addEventListener('scroll',u,{passive:true});u()})();
 
 /* Global keys: Escape closes any open overlay. Loads last. */
 addEventListener('keydown',function(e){
